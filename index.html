@@ -239,8 +239,8 @@ footer::before{content:'';display:block;width:100%;height:1.5px;background:linea
         <div class="hero-logo-ring1"></div>
         <div class="hero-logo-ring2"></div>
         <div class="hero-logo-inner">
-          <img src="logo.png" alt="Rizz Live" onerror="this.style.display='none';document.getElementById('heroFb').style.display='block'"/>
-          <span class="hero-logo-fb" id="heroFb">R</span>
+          <img id="heroLogoImg" src="logo.png" alt="Rizz Live" onerror="this.style.display='none';document.getElementById('heroFb').style.display='block'"/>
+          <span class="hero-logo-fb" id="heroFb" style="display:none">R</span>
         </div>
       </div>
       <div class="hero-text">
@@ -292,8 +292,8 @@ footer::before{content:'';display:block;width:100%;height:1.5px;background:linea
       <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
       <div class="modal-logo-wrap">
         <div class="modal-logo-inner">
-          <img src="logo.png" alt="" onerror="this.style.display='none';document.getElementById('mlFb').style.display='block'"/>
-          <span class="modal-logo-fb" id="mlFb">R</span>
+          <img id="modalLogoImg" src="logo.png" alt="" onerror="this.style.display='none';document.getElementById('mlFb').style.display='block'"/>
+          <span class="modal-logo-fb" id="mlFb" style="display:none">R</span>
         </div>
       </div>
       <div class="modal-title">Rizz Live</div>
@@ -338,11 +338,7 @@ async function loadSellers(){
       GLOBAL_PRICES=d.globalPrices||[];
     }
   }catch(e){
-    // If no JSON, check localStorage fallback
-    try{
-      const ls=localStorage.getItem('rca_sellers');
-      if(ls){const d=JSON.parse(ls);ALL_SELLERS=d||[];}
-    }catch(e2){}
+    try{const ls=localStorage.getItem('rca_sellers');if(ls){const d=JSON.parse(ls);ALL_SELLERS=d||[];}}catch(e2){}
   }
   render(ALL_SELLERS);
 }
@@ -450,11 +446,6 @@ document.getElementById('modalClose').addEventListener('click',()=>document.getE
 document.getElementById('priceModal').addEventListener('click',e=>{if(e.target===e.currentTarget)e.currentTarget.classList.remove('open');});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('priceModal').classList.remove('open');});
 
-(function(){
-  const mImg=document.querySelector('.modal-logo-inner img');
-  const mFb=document.getElementById('mlFb');
-  if(mImg){mImg.addEventListener('load',()=>{mImg.style.display='block';mFb.style.display='none';});mImg.addEventListener('error',()=>{mImg.style.display='none';mFb.style.display='block';});}
-})();
 
 function tick(){const t=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});document.getElementById('liveTime').textContent=t+' IST';}
 tick();setInterval(tick,1000);
